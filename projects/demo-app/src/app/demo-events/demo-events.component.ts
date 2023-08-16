@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { COMMON_NAMES } from '../common-names';
-import { MentionConfig } from 'projects/angular-mentions/src/public-api';
+import { MentionConfig } from 'projects/angular-mentions-2/src/public-api';
 
 @Component({
   selector: 'app-demo-events',

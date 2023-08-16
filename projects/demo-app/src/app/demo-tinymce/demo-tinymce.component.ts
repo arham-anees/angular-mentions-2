@@ -1,11 +1,11 @@
 import { Component, NgZone, Input, ViewChild } from '@angular/core';
 
-import { MentionDirective } from 'angular-mentions';
+import { MentionDirective } from 'angular-mentions-2';
 import { COMMON_NAMES } from '../common-names';
 
 /**
  * Angular 2 Mentions.
- * https://github.com/dmacfarlane/angular-mentions
+ * https://github.com/arham-anees/angular-mentions-2
  *
  * Example usage with TinyMCE.
  */

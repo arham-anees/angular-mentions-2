@@ -19,7 +19,7 @@ const KEY_BUFFERED = 229;
 
 /**
  * Angular Mentions.
- * https://github.com/dmacfarlane/angular-mentions
+ * https://github.com/arham-anees/angular-mentions-2
  *
  * Copyright (c) 2017 Dan MacFarlane
  */

@@ -11,7 +11,7 @@ and content editable fields.
 
 To install and start the demo application:
 
-    git clone https://github.com/dmacfarlane/angular-mentions.git
+    git clone https://github.com/arham-anees/angular-mentions-2.git
     cd angular-mentions
     npm install
     ng serve
@@ -25,7 +25,7 @@ Add the package as a dependency to your project using:
 Add the module to your app.module imports:
 
 ```typescript
-import { MentionModule } from 'angular-mentions';
+import { MentionModule } from 'angular-mentions-2';
 ...
 
 @NgModule({
