@@ -42,4 +42,7 @@ export interface Mentions {
 
   // optional function to customize the search implementation
   mentionFilter?:(searchString:string, items?:any) => (any[]);
+
+  // option to set format of inserted data
+  format?:'string'|'html';
 }

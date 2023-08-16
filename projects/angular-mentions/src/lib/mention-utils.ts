@@ -11,6 +11,16 @@ function setValue(el: HTMLInputElement, value: any) {
   }
 }
 
+function setInnerHTML(el: HTMLInputElement, html: string) {
+  //console.log("setValue", el.nodeName, "["+value+"]");
+  if (isInputOrTextAreaElement(el)) {
+    el.innerHTML = html;
+  }
+  else {
+    el.innerHTML = html;
+  }
+}
+
 export function getValue(el: HTMLInputElement) {
   return isInputOrTextAreaElement(el) ? el.value : el.textContent;
 }
@@ -43,12 +53,42 @@ export function insertValue(
   }
 }
 
+export function insertHTML(
+  el: HTMLInputElement,
+  start: number,
+  end: number,
+  html: string,
+  iframe: HTMLIFrameElement,
+  noRecursion: boolean = false
+) {
+  //console.log("insertValue", el.nodeName, start, end, "["+text+"]", el);
+  if (isTextElement(el)) {
+    let val = getValue(el);
+    setInnerHTML(el, val.substring(0, start) + html + val.substring(end, val.length));
+    let htmlValue = html.substring(html.indexOf('>') + 1, html.lastIndexOf('<'));
+    console.log("htmlValue", htmlValue);
+    setCaretPositionHTML(el, start + htmlValue.length, iframe);
+  }
+  else if (!noRecursion) {
+    let selObj: Selection = getWindowSelection(iframe);
+    if (selObj && selObj.rangeCount > 0) {
+      var selRange = selObj.getRangeAt(0);
+      var position = selRange.startOffset;
+      var anchorNode = selObj.anchorNode;
+      // if (text.endsWith(' ')) {
+      //   text = text.substring(0, text.length-1) + '\xA0';
+      // }
+      insertHTML(<HTMLInputElement>anchorNode, position - (end - start), position, html, iframe, true);
+    }
+  }
+}
+
 export function isInputOrTextAreaElement(el: HTMLElement): boolean {
   return el != null && (el.nodeName == 'INPUT' || el.nodeName == 'TEXTAREA');
 };
 
 export function isTextElement(el: HTMLElement): boolean {
-  return el != null && (el.nodeName == 'INPUT' || el.nodeName == 'TEXTAREA' || el.nodeName == '#text');
+  return el != null && (el.nodeName == 'INPUT' || el.nodeName == 'TEXTAREA' || el.nodeName == '#text' || el.nodeName == 'DIV');
 };
 
 export function setCaretPosition(el: HTMLInputElement, pos: number, iframe: HTMLIFrameElement = null) {
@@ -60,6 +100,22 @@ export function setCaretPosition(el: HTMLInputElement, pos: number, iframe: HTML
   else {
     let range = getDocument(iframe).createRange();
     range.setStart(el, pos);
+    range.collapse(true);
+    let sel = getWindowSelection(iframe);
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+}
+
+export function setCaretPositionHTML(el: HTMLInputElement, pos: number, iframe: HTMLIFrameElement = null) {
+  //console.log("setCaretPosition", pos, el, iframe==null);
+  if (isInputOrTextAreaElement(el) && el.selectionStart) {
+    el.focus();
+    el.setSelectionRange(pos, pos);
+  }
+  else {
+    let range = getDocument(iframe).createRange();
+    range.setStartAfter(el.lastChild);
     range.collapse(true);
     let sel = getWindowSelection(iframe);
     sel.removeAllRanges();
