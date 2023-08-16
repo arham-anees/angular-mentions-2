@@ -1,6 +1,6 @@
 import { ComponentFactoryResolver, Directive, ElementRef, TemplateRef, ViewContainerRef } from "@angular/core";
 import { EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
-import { getCaretPosition, getValue, insertValue, setCaretPosition } from './mention-utils';
+import { getCaretPosition, getValue, insertHTML, insertValue, setCaretPosition } from './mention-utils';
 
 import { MentionConfig } from "./mention-config";
 import { MentionListComponent } from './mention-list.component';
@@ -59,7 +59,8 @@ export class MentionDirective implements OnChanges {
     mentionFilter: (searchString: string, items: any[]) => {
       const searchStringLowerCase = searchString.toLowerCase();
       return items.filter(e => e[this.activeConfig.labelKey].toLowerCase().startsWith(searchStringLowerCase));
-    }
+    },
+    format: 'string'
   }
 
   // template to use for rendering list items
@@ -251,10 +252,15 @@ export class MentionDirective implements OnChanges {
             // emit the selected list item
             this.itemSelected.emit(this.searchList.activeItem);
             // optional function to format the selected item before inserting the text
-            const text = this.activeConfig.mentionSelect(this.searchList.activeItem, this.activeConfig.triggerChar);
+            const text = this.activeConfig.mentionSelect(this.searchList.activeItem, this.activeConfig.triggerChar) + ' &nbsp;';
             // value is inserted without a trailing space for consistency
             // between element types (div and iframe do not preserve the space)
-            insertValue(nativeElement, this.startPos, pos, text, this.iframe);
+            if (this.activeConfig.format === 'string') {
+              insertValue(nativeElement, this.startPos, pos, text, this.iframe);
+            }
+            else {
+              insertHTML(nativeElement, this.startPos, pos, text, this.iframe);
+            }
             // fire input event so angular bindings are updated
             if ("createEvent" in document) {
               let evt = document.createEvent("HTMLEvents");
@@ -290,7 +296,7 @@ export class MentionDirective implements OnChanges {
           }
         }
 
-        if (charPressed.length!=1 && event.keyCode!=KEY_BACKSPACE) {
+        if (charPressed.length != 1 && event.keyCode != KEY_BACKSPACE) {
           this.stopEvent(event);
           return false;
         }
@@ -303,7 +309,7 @@ export class MentionDirective implements OnChanges {
           if (this.activeConfig.returnTrigger) {
             const triggerChar = (this.searchString || event.keyCode === KEY_BACKSPACE) ? val.substring(this.startPos, this.startPos + 1) : '';
             this.searchTerm.emit(triggerChar + this.searchString);
-          } 
+          }
           else {
             this.searchTerm.emit(this.searchString);
           }
@@ -318,6 +324,12 @@ export class MentionDirective implements OnChanges {
     triggerChar = triggerChar || this.mentionConfig.triggerChar || this.DEFAULT_CONFIG.triggerChar;
     const pos = getCaretPosition(nativeElement, this.iframe);
     insertValue(nativeElement, pos, pos, triggerChar, this.iframe);
+    if (this.activeConfig.format == 'string') {
+      insertValue(nativeElement, pos, pos, triggerChar, this.iframe);
+    }
+    else {
+      insertHTML(nativeElement, pos, pos, triggerChar, this.iframe);
+    }
     this.keyHandler({ key: triggerChar, inputEvent: true }, nativeElement);
   }
 

@@ -4,7 +4,9 @@
   The tigger characters are @ for names and # for users.
 </p>
 
-<input class="form-control" type="text" [mentionConfig]="mentionConfig">
+<!-- <input class="form-control" type="text" [mentionConfig]="mentionConfig" (input)="oninput($event)"> -->
+<div [mentionConfig]="mentionConfig" class="form-control" contenteditable="true" style="border:1px lightgrey solid;min-height:88px"(input)="oninput($event)"></div>
+
 <br>
 <button (click)="addUser()">Add User</button>
 <br>

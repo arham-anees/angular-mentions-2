@@ -10,24 +10,24 @@ export class DemoConfigComponent {
 
   complexItems = [
     {
-      "value" : "user1",
+      "value" : "user 1",
       "email": "user1@domain.com",
       "name": "User One"
     },
     {
-      "value" : "user2",
+      "value" : "user 2",
       "email": "user2@domain.com",
       "name": "User Two"
     },
     {
-      "value" : "user3",
+      "value" : "user 3",
       "email": "user3@domain.com",
       "name": "User Three"
     }
   ];
 
   format(item:any) {
-    return item['value'].toUpperCase();
+    return `<span class='mention'>${item['value'].toUpperCase()}</span>`;
   }
 
   filter(searchString: string, items: any[]): any[] {
@@ -41,7 +41,8 @@ export class DemoConfigComponent {
         labelKey: 'name',
         triggerChar: '#',
         mentionSelect: this.format,
-        mentionFilter: this.filter
+        mentionFilter: this.filter,
+        format: 'html'
       },
       {
         items: COMMON_NAMES,
@@ -50,6 +51,10 @@ export class DemoConfigComponent {
     ]
   };
 
+oninput(event: any) 
+{
+  console.log(event.target.innerHTML);
+}
   addUser() {
     let next = this.complexItems.length+1;
     this.complexItems.push({
