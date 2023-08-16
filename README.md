@@ -7,12 +7,12 @@ Simple Angular mentions inspired by [Ment.io](https://github.com/jeff-collins/me
 This package provides auto-complete suggestions for @mentions in text input fields, text areas,
 and content editable fields.
 
-[Click here to experiment on StackBlitz](https://stackblitz.com/edit/angular-mentions)
+<!-- [Click here to experiment on StackBlitz](https://stackblitz.com/edit/angular-mentions) -->
 
 To install and start the demo application:
 
-    git clone https://github.com/dmacfarlane/angular-mentions.git
-    cd angular-mentions
+    git clone https://github.com/arham-anees/angular-mentions-2.git
+    cd angular-mentions-2
     npm install
     ng serve
 
@@ -20,12 +20,12 @@ To install and start the demo application:
 
 Add the package as a dependency to your project using:
 
-    npm install angular-mentions
+    npm install angular-mentions-2
 
 Add the module to your app.module imports:
 
 ```typescript
-import { MentionModule } from 'angular-mentions';
+import { MentionModule } from 'angular-mentions-2';
 ...
 
 @NgModule({
@@ -63,6 +63,7 @@ The following optional configuration items can be used.
 | mentionFilter |          | A function that returns the items to display. |
 | allowSpace    | false    | Allow spaces while mentioning. |
 | returnTrigger | false    | Include the trigger char in the searchTerm event. |
+| format        | 'string' | 'string' or 'html' format to insert into content |
 
 For Example: 
 

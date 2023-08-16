@@ -1,5 +1,5 @@
 {
-  "name": "angular-mentions",
+  "name": "angular-mentions-2",
   "version": "1.5.0",
 
   "description": "Angular mentions for text fields.",
@@ -10,9 +10,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/dmacfarlane/angular-mentions.git"
+    "url": "https://github.com/arham-anees/angular-mentions-2.git"
   },
-  "author": "Dan MacFarlane",
+  "author": "Arham Anees",
   "license": "MIT",
   "dependencies": {
     "tslib": "^2.0.0"
