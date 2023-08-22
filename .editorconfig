@@ -8,6 +8,10 @@ indent_size = 2
 end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
+single_quote = true
+
+[*.{js,jsx,ts,tsx}]
+single_quote = true
 
 [*.md]
 max_line_length = 0
